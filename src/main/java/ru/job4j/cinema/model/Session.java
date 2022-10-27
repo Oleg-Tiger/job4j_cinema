@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Session {
     private int id;
     private String name;
+    private byte[] photo;
 
     public int getId() {
         return id;
@@ -20,6 +21,14 @@ public class Session {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @Override
