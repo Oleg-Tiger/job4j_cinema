@@ -20,6 +20,12 @@
 <font size="6" color="blue" face="Comic Sans MS">
     <h1 align="center">Киноман</h1>
 </font>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
 <div class="container">
     <div class="row">
         <table class="table">
@@ -31,7 +37,11 @@
             <tbody>
             <tr th:each="ses: ${sessions}">
                 <td>
-                    <img th:width="150" th:high="150" th:src="@{|/photoSession/${ses.id}|}">
+                    <a class="nav-item nav-link" th:href="@{/hallRow}">
+                        <span>
+                            <img th:width="200" th:high="200" th:src="@{|/photoSession/${ses.id}|}">
+                        </span>
+                    </a>
                 </td>
                 <td>
                     <h4>
@@ -39,23 +49,15 @@
                             <span th:text="${ses.name}"></span>
                         </p>
                     </h4>
-
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" th:href="@{/formAddSession}">Добавить сеанс</a>
         </div>
     </div>
 </nav>
+<a class="nav-item nav-link" th:href="@{/formAddSession}">Добавить сеанс</a>
 </body>
 </html>
