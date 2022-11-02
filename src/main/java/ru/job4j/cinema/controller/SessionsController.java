@@ -13,6 +13,8 @@ import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.service.SessionsService;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
@@ -52,5 +54,14 @@ public class SessionsController {
                 .contentLength(session.getPhoto().length)
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new ByteArrayResource(session.getPhoto()));
+    }
+
+    @GetMapping("/hallRow/{sessionId}")
+    public String sessions(Model model, HttpServletRequest req, @PathVariable("sessionId") int id) {
+        Session ses = service.findById(id);
+        model.addAttribute("ses", ses);
+        HttpSession session = req.getSession();
+        session.setAttribute("ses", ses);
+        return "hallRow";
     }
 }

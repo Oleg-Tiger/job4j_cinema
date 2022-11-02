@@ -17,8 +17,65 @@
     <font size="6" color="blue" face="Comic Sans MS">
         <h1 align="center">Киноман</h1>
     </font>
+    <br>
+    <br>
+    <font size="6">
+        <td th:text="${ses.name}"></td>
+    </font>
+    <br>
+    <span>
+        <img th:width="200" th:high="200" th:src="@{|/photoSession/${ses.id}|}">
+    </span>
+    <br>
+    <br>
+    <h5>Выберите ряд: </h5>
 </head>
 <body>
+<form>
+    <div>
+        <input type="radio" id="1"
+               name="0" value="1">
+        <label for="1">1</label>
 
+        <input type="radio" id="2"
+               name="0" value="2">
+        <label for="2">2</label>
+
+        <input type="radio" id="3"
+               name="0" value="3">
+        <label for="3">3</label>
+
+        <input type="radio" id="4"
+               name="0" value="4">
+        <label for="4">4</label>
+
+        <input type="radio" id="5"
+               name="0" value="5">
+        <label for="5">5</label>
+
+        <input type="radio" id="6"
+               name="0" value="6">
+        <label for="6">6</label>
+
+        <input type="radio" id="7"
+               name="0" value="7">
+        <label for="7">7</label>
+
+        <input type="radio" id="8"
+               name="0" value="8">
+        <label for="8">8</label>
+
+        <input type="radio" id="9"
+               name="0" value="9">
+        <label for="9">9</label>
+
+        <input type="radio" id="10"
+               name="0" value="10">
+        <label for="10">10</label>
+    </div>
+    <a class="nav-item nav-link" th:href="@{/hallSeat}">
+        <button type="submit" class="btn btn-primary">Далее</button>
+    </a>
+</form>
 </body>
 </html>

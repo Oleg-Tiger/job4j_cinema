@@ -37,7 +37,7 @@
             <tbody>
             <tr th:each="ses: ${sessions}">
                 <td>
-                    <a class="nav-item nav-link" th:href="@{/hallRow}">
+                    <a class="nav-item nav-link" th:href="@{|/hallRow/${ses.id}|}">
                         <span>
                             <img th:width="200" th:high="200" th:src="@{|/photoSession/${ses.id}|}">
                         </span>
