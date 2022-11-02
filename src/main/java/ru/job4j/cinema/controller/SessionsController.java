@@ -57,11 +57,11 @@ public class SessionsController {
     }
 
     @GetMapping("/hallRow/{sessionId}")
-    public String sessions(Model model, HttpServletRequest req, @PathVariable("sessionId") int id) {
+    public String sessionsId(Model model, HttpServletRequest req, @PathVariable("sessionId") int id) {
         Session ses = service.findById(id);
         model.addAttribute("ses", ses);
-        HttpSession session = req.getSession();
-        session.setAttribute("ses", ses);
+        HttpSession httpSession = req.getSession();
+        httpSession.setAttribute("ses", ses);
         return "hallRow";
     }
 }
