@@ -64,4 +64,11 @@ public class SessionsController {
         httpSession.setAttribute("ses", ses);
         return "hallRow";
     }
+
+    @PostMapping("/choiceRow")
+    public String choiceRow(HttpSession httpSession, HttpServletRequest req) {
+        Integer row = Integer.valueOf(req.getParameter("0"));
+        httpSession.setAttribute("row", row);
+        return "redirect:/hallSeat";
+    }
 }

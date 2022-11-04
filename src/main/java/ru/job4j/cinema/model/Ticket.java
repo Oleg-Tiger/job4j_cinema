@@ -9,6 +9,14 @@ public class Ticket {
     private int cell;
     private int userId;
 
+    public Ticket(int id, int sessionId, int posRow, int cell, int userId) {
+        this.id = id;
+        this.sessionId = sessionId;
+        this.posRow = posRow;
+        this.cell = cell;
+        this.userId = userId;
+    }
+
     public int getId() {
         return id;
     }
@@ -58,7 +66,7 @@ public class Ticket {
             return false;
         }
         Ticket ticket = (Ticket) o;
-        return id == ticket.id && sessionId == ticket.sessionId && posRow == ticket.posRow && cell == ticket.cell && userId == ticket.userId;
+        return id == ticket.id && sessionId == ticket.sessionId && posRow == ticket.posRow && cell == ticket.cell;
     }
 
     @Override

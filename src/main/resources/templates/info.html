@@ -34,5 +34,20 @@
 <h3><td th:text="${row}"></td><br></h3>
 <h4>Место:</h4>
 <h3><td th:text="${seat}"></td></h3>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" th:href="@{/result}">
+            <button type="submit" class="btn btn-primary">Купить</button>
+            </a>
+            <a class="nav-item nav-link" th:href="@{/sessions}">
+            <button type="submit" class="btn btn-primary">Отменить</button>
+            </a>
+        </div>
+    </div>
+</nav>
 </body>
 </html>
