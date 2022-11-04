@@ -38,7 +38,7 @@ public class SessionsDBStore {
                     }
                 }
             } catch (Exception e) {
-                LOG.error("Exception in SessionsDBStore.add(Session session)", e);
+                LOG.error("Exception in SessionsDBStore.add()", e);
             }
             return session;
     }
@@ -77,7 +77,7 @@ public class SessionsDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception in SessionDBStore.findById(Integer id)", e);
+            LOG.error("Exception in SessionDBStore.findById()", e);
         }
         return null;
     }

@@ -9,6 +9,7 @@ import ru.job4j.cinema.model.Ticket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @Repository
 public class TicketDBStore {
@@ -34,9 +35,10 @@ public class TicketDBStore {
                     ticket.setId(id.getInt(1));
                 }
             }
-        } catch (Exception e) {
-            LOG.error("Exception in TicketDBStore.add(Ticket ticket)", e);
+        } catch (SQLIntegrityConstraintViolationException i) {
             return false;
+        } catch (Exception e) {
+            LOG.error("Exception in TicketDBStore.add()", e);
         }
         return true;
     }

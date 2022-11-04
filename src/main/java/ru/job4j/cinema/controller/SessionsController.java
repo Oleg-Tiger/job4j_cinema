@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cinema.model.Session;
+import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.SessionsService;
+import ru.job4j.cinema.utils.UserUtil;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,9 @@ public class SessionsController {
     }
 
     @GetMapping("/sessions")
-    public String sessions(Model model) {
+    public String sessions(Model model, HttpSession httpSession) {
+        User user = UserUtil.getUserFromSession(httpSession);
+        model.addAttribute("user", user);
         model.addAttribute("sessions", service.findAll());
         return "sessions";
     }
@@ -57,10 +61,11 @@ public class SessionsController {
     }
 
     @GetMapping("/hallRow/{sessionId}")
-    public String sessionsId(Model model, HttpServletRequest req, @PathVariable("sessionId") int id) {
+    public String sessionsId(Model model, HttpSession httpSession, @PathVariable("sessionId") int id) {
         Session ses = service.findById(id);
         model.addAttribute("ses", ses);
-        HttpSession httpSession = req.getSession();
+        User user = UserUtil.getUserFromSession(httpSession);
+        model.addAttribute("user", user);
         httpSession.setAttribute("ses", ses);
         return "hallRow";
     }
@@ -68,6 +73,7 @@ public class SessionsController {
     @PostMapping("/choiceRow")
     public String choiceRow(HttpSession httpSession, HttpServletRequest req) {
         Integer row = Integer.valueOf(req.getParameter("0"));
+        User user = UserUtil.getUserFromSession(httpSession);
         httpSession.setAttribute("row", row);
         return "redirect:/hallSeat";
     }
