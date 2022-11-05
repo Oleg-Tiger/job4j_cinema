@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Optional;
 
 @Repository
 public class TicketDBStore {
@@ -22,7 +23,8 @@ public class TicketDBStore {
         this.pool = pool;
     }
 
-    public boolean addTicket(Ticket ticket) {
+    public Optional<Ticket> addTicket(Ticket ticket) {
+        Optional<Ticket> result = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, ticket.getSessionId());
@@ -33,13 +35,12 @@ public class TicketDBStore {
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
                     ticket.setId(id.getInt(1));
+                    result = Optional.of(ticket);
                 }
             }
-        } catch (SQLIntegrityConstraintViolationException i) {
-            return false;
         } catch (Exception e) {
             LOG.error("Exception in TicketDBStore.add()", e);
         }
-        return true;
+        return result;
     }
 }

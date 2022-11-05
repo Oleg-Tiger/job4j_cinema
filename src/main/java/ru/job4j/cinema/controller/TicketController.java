@@ -12,6 +12,7 @@ import ru.job4j.cinema.utils.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Controller
 public class TicketController {
@@ -54,13 +55,15 @@ public class TicketController {
         Integer seat = (Integer) httpSession.getAttribute("seat");
         User user = (User) httpSession.getAttribute("user");
         Ticket ticket = new Ticket(0, session.getId(), row, seat, user.getId());
-        boolean result = service.addTicket(ticket);
+        Optional<Ticket> result = service.addTicket(ticket);
         model.addAttribute("row", row);
         model.addAttribute("seat", seat);
-        if (result) {
-            return "success";
+        model.addAttribute("ses", session);
+        model.addAttribute("user", user);
+        if (result.isEmpty()) {
+            return "occupied";
         }
-        return "occupied";
+        return "success";
     }
 
     @GetMapping("occupied")
@@ -69,10 +72,7 @@ public class TicketController {
     }
 
     @GetMapping("success")
-    public String success(HttpSession httpSession, Model model) {
-        model.addAttribute("ses", httpSession.getAttribute("ses"));
-        model.addAttribute("row", httpSession.getAttribute("row"));
-        model.addAttribute("seat", httpSession.getAttribute("seat"));
+    public String success() {
         return "success";
     }
 }

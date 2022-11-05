@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.store.TicketDBStore;
 
+import java.util.Optional;
+
 @Service
 public class TicketService {
 
@@ -13,7 +15,7 @@ public class TicketService {
         this.store = store;
     }
 
-    public boolean addTicket(Ticket ticket) {
+    public Optional<Ticket> addTicket(Ticket ticket) {
         return store.addTicket(ticket);
     }
 }

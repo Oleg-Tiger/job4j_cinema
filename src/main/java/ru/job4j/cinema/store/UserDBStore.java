@@ -23,6 +23,7 @@ public class UserDBStore {
     }
 
     public Optional<User> add(User user) {
+        Optional<User> result = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getUsername());
@@ -32,13 +33,13 @@ public class UserDBStore {
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
                     user.setId(id.getInt(1));
+                    result = Optional.of(user);
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception in UserDBStore.add()", e);
-            return Optional.empty();
         }
-        return Optional.of(user);
+        return result;
     }
 
     public Optional<User> findUserByEmailAndPhone(String email, String phone) {

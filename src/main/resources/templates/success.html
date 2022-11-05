@@ -14,9 +14,28 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
           integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Кинотеатр "Киноман"</title>
+</head>
+<body>
   <font size="6" color="blue" face="Comic Sans MS">
     <h1 align="center">Киноман</h1>
   </font>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" th:href="@{/logout}">
+            <span th:text="${user.username}"></span>
+            <span> | Выйти</span>
+          </a>
+          <a class="nav-item nav-link" th:href="@{/sessions}">На главную</a>
+        </div>
+      </div>
+    </nav>
+  </div>
   <br>
   <br>
   <h4>Оплата произведена. Информация о билете:</h4>
@@ -30,8 +49,6 @@
     </span>
   <br>
   <br>
-</head>
-<body>
 <h4>Ряд:</h4>
 <h3><td th:text="${row}"></td><br></h3>
 <h4>Место:</h4>
