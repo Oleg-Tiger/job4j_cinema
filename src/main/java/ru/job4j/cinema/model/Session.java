@@ -7,6 +7,15 @@ public class Session {
     private String name;
     private byte[] photo;
 
+    public Session(int id, String name, byte[] photo) {
+        this.id = id;
+        this.name = name;
+        this.photo = photo;
+    }
+
+    public Session() {
+    }
+
     public int getId() {
         return id;
     }
