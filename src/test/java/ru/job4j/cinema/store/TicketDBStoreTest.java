@@ -11,14 +11,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import ru.job4j.cinema.Main;
 import ru.job4j.cinema.model.Session;
+import ru.job4j.cinema.model.Ticket;
+import ru.job4j.cinema.model.User;
 
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
-class SessionsDBStoreTest {
+public class TicketDBStoreTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
@@ -57,28 +59,24 @@ class SessionsDBStoreTest {
 
     @AfterEach
     private void tearDown() {
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "sessions");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "ticket", "users", "sessions");
     }
 
     @Test
     public void whenAddSession() {
-        SessionsDBStore store = new SessionsDBStore(new Main().loadPool());
+        SessionsDBStore sessionStore = new SessionsDBStore(new Main().loadPool());
         Session session = new Session(0, "name", new byte[1]);
-        store.add(session);
-        Session inDB = store.findById(session.getId());
-        Assertions.assertThat(inDB.getName()).isEqualTo(session.getName());
+        sessionStore.add(session);
+
+        UserDBStore userStore = new UserDBStore(new Main().loadPool());
+        User user = new User(0, "username", "email", "phone");
+        userStore.add(user);
+
+        TicketDBStore ticketStore = new TicketDBStore(new Main().loadPool());
+        Ticket ticket = new Ticket(0, session.getId(), 1, 1, user.getId());
+        ticketStore.addTicket(ticket);
+        Optional<Ticket> inDB = ticketStore.findById(ticket.getId());
+        Assertions.assertThat(inDB.get()).isEqualTo(ticket);
     }
 
-    @Test
-    public void whenFindAll() {
-        SessionsDBStore store = new SessionsDBStore(new Main().loadPool());
-        Session session = new Session(0, "name", new byte[1]);
-        Session session2 = new Session(0, "name2", new byte[1]);
-        List<Session> resultBeforeAdd = store.findAll();
-        store.add(session);
-        store.add(session2);
-        List<Session> result = store.findAll();
-        Assertions.assertThat(resultBeforeAdd.size() + 2).isEqualTo(result.size());
-        Assertions.assertThat(result).contains(session, session2);
-    }
 }

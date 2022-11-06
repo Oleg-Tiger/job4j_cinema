@@ -9,6 +9,10 @@ public class Ticket {
     private int cell;
     private int userId;
 
+    public Ticket() {
+
+    }
+
     public Ticket(int id, int sessionId, int posRow, int cell, int userId) {
         this.id = id;
         this.sessionId = sessionId;

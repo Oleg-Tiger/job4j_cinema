@@ -81,6 +81,5 @@ public class SessionsDBStore {
         }
         return null;
     }
-
 }
 
