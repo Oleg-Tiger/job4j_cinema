@@ -21,19 +21,21 @@ import static org.mockito.Mockito.*;
 
 public class SessionsControllerTest {
 
+    private User user = new User();
+    private Model model = mock(Model.class);
+    private HttpSession httpSession = mock(HttpSession.class);
+    private SessionsService service = mock(SessionsService.class);
+    private HttpServletRequest req = mock(HttpServletRequest.class);
+    private SessionsController sessionsController = new SessionsController(service);
+
     @Test
     public void whenSessions() {
-        User user = new User();
         List<Session> sessions = Arrays.asList(
                 new Session(1, "New session", new byte[1]),
                 new Session(2, "New session", new byte[1])
         );
-        Model model = mock(Model.class);
-        HttpSession httpSession = mock(HttpSession.class);
-        SessionsService service = mock(SessionsService.class);
         when(service.findAll()).thenReturn(sessions);
         when(UserUtil.getUserFromSession(httpSession)).thenReturn(user);
-        SessionsController sessionsController = new SessionsController(service);
         String page = sessionsController.sessions(model, httpSession);
         verify(model).addAttribute("sessions", sessions);
         verify(model).addAttribute("user", user);
@@ -43,9 +45,6 @@ public class SessionsControllerTest {
     @Test
     public void whenAddSession() {
         Session session = new Session();
-        Model model = mock(Model.class);
-        SessionsService service = mock(SessionsService.class);
-        SessionsController sessionsController = new SessionsController(service);
         String page = sessionsController.addSession(model);
         verify(model).addAttribute("session", session);
         assertThat(page, is("addSession"));
@@ -55,41 +54,32 @@ public class SessionsControllerTest {
     public void whenCreateSession() throws IOException {
         byte[] photo = new byte[1];
         Session session = new Session(0, "Имя", photo);
-        SessionsService service = mock(SessionsService.class);
         MultipartFile file = mock(MultipartFile.class);
         when(file.getBytes()).thenReturn(photo);
-        SessionsController sessionsController = new SessionsController(service);
         String page = sessionsController.createSession(session, file);
         assertThat(page, is("redirect:/sessions"));
     }
 
     @Test
     public void whenSessionsId() {
-        User user = new User();
-        int id = 1;
+        Integer id = 1;
         Session session = new Session(1, "Имя", new byte[1]);
-        SessionsService service = mock(SessionsService.class);
         when(service.findById(id)).thenReturn(session);
-        SessionsController sessionsController = new SessionsController(service);
-        Model model = mock(Model.class);
-        HttpSession httpSession = mock(HttpSession.class);
         when(UserUtil.getUserFromSession(httpSession)).thenReturn(user);
         String page = sessionsController.sessionsId(model, httpSession, id);
         verify(model).addAttribute("ses", session);
         verify(model).addAttribute("user", user);
+        verify(httpSession).setAttribute("ses", session);
         assertThat(page, is("hallRow"));
     }
 
     @Test
     public void whenChoiceRow() {
-        User user = new User();
-        SessionsService service = mock(SessionsService.class);
-        SessionsController sessionsController = new SessionsController(service);
-        HttpSession httpSession = mock(HttpSession.class);
+        Integer row = 1;
         when(UserUtil.getUserFromSession(httpSession)).thenReturn(user);
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        when(req.getParameter("0")).thenReturn("1");
+        when(req.getParameter("0")).thenReturn(row.toString());
         String page = sessionsController.choiceRow(httpSession, req);
+        verify(httpSession).setAttribute("row", row);
         assertThat(page, is("redirect:/hallSeat"));
     }
 }
