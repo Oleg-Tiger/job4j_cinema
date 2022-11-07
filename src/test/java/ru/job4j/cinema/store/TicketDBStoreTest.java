@@ -63,7 +63,7 @@ public class TicketDBStoreTest {
     }
 
     @Test
-    public void whenAddSession() {
+    public void whenAddTicket() {
         SessionsDBStore sessionStore = new SessionsDBStore(new Main().loadPool());
         Session session = new Session(0, "name", new byte[1]);
         sessionStore.add(session);
@@ -77,6 +77,26 @@ public class TicketDBStoreTest {
         ticketStore.addTicket(ticket);
         Optional<Ticket> inDB = ticketStore.findById(ticket.getId());
         Assertions.assertThat(inDB.get()).isEqualTo(ticket);
+    }
+
+    @Test
+    public void whenNotAddTicket() {
+        SessionsDBStore sessionStore = new SessionsDBStore(new Main().loadPool());
+        Session session = new Session(0, "name", new byte[1]);
+        sessionStore.add(session);
+
+        UserDBStore userStore = new UserDBStore(new Main().loadPool());
+        User user = new User(0, "username", "email", "phone");
+        userStore.add(user);
+
+        TicketDBStore ticketStore = new TicketDBStore(new Main().loadPool());
+        Ticket ticket = new Ticket(0, session.getId(), 1, 1, user.getId());
+        Ticket ticket2 = new Ticket(0, session.getId(), 1, 1, user.getId());
+        ticketStore.addTicket(ticket);
+        Optional<Ticket> inDB = ticketStore.findById(ticket.getId());
+        Optional<Ticket> inDB2 = ticketStore.findById(ticket2.getId());
+        Assertions.assertThat(inDB.get()).isEqualTo(ticket);
+        Assertions.assertThat(inDB2.isEmpty());
     }
 
 }
