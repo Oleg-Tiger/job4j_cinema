@@ -2,24 +2,24 @@ package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.store.UserDBStore;
+import ru.job4j.cinema.repository.UserRepository;
 
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private final UserDBStore store;
+    private final UserRepository repository;
 
-    public UserService(UserDBStore store) {
-        this.store = store;
+    public UserService(UserRepository repository) {
+        this.repository = repository;
     }
 
     public Optional<User> findUserByEmailAndPhone(String email, String phone) {
-        return store.findUserByEmailAndPhone(email, phone);
+        return repository.findUserByEmailAndPhone(email, phone);
     }
 
     public Optional<User> add(User user) {
-        return store.add(user);
+        return repository.add(user);
     }
 }

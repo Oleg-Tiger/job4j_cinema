@@ -1,4 +1,4 @@
-package ru.job4j.cinema.store;
+package ru.job4j.cinema.repository;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
@@ -12,13 +12,13 @@ import java.sql.ResultSet;
 import java.util.Optional;
 
 @Repository
-public class UserDBStore {
+public class UserRepository {
     private final BasicDataSource pool;
-    private static final Logger LOG = LoggerFactory.getLogger(UserDBStore.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(UserRepository.class.getName());
     private static final String ADD = "INSERT INTO users(username, email, phone) VALUES (?, ?, ?)";
     private static final String FIND_EMAIL_PHONE = "SELECT * FROM users WHERE email = ? AND phone = ?";
 
-    public UserDBStore(BasicDataSource pool) {
+    public UserRepository(BasicDataSource pool) {
         this.pool = pool;
     }
 
@@ -37,7 +37,7 @@ public class UserDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception in UserDBStore.add()", e);
+            LOG.error("Exception in UserRepository.add()", e);
         }
         return result;
     }
@@ -57,7 +57,7 @@ public class UserDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception in UserDBStore.findUserByEmailAndPhone()", e);
+            LOG.error("Exception in UserRepository.findUserByEmailAndPhone()", e);
         }
         return result;
     }

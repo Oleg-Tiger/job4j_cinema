@@ -1,4 +1,4 @@
-package ru.job4j.cinema.store;
+package ru.job4j.cinema.repository;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.LoggerFactory;
@@ -14,15 +14,15 @@ import java.util.List;
 import org.slf4j.Logger;
 
 @Repository
-public class SessionsDBStore {
+public class SessionRepository {
 
     private final BasicDataSource pool;
-    private static final Logger LOG = LoggerFactory.getLogger(SessionsDBStore.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(SessionRepository.class.getName());
     private static final String ADD = "INSERT INTO sessions(name, photo) VALUES (?, ?)";
     private static final String SELECT_ALL = "SELECT * FROM sessions";
     private static final String FIND_BY_ID = SELECT_ALL + " WHERE id = ?";
 
-    public SessionsDBStore(BasicDataSource pool) {
+    public SessionRepository(BasicDataSource pool) {
         this.pool = pool;
     }
 
@@ -38,7 +38,7 @@ public class SessionsDBStore {
                     }
                 }
             } catch (Exception e) {
-                LOG.error("Exception in SessionsDBStore.add()", e);
+                LOG.error("Exception in SessionRepository.add()", e);
             }
             return session;
     }
@@ -58,7 +58,7 @@ public class SessionsDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception in SessionsDBStore.findAll()", e);
+            LOG.error("Exception in SessionRepository.findAll()", e);
         }
         return sessions;
     }
@@ -77,7 +77,7 @@ public class SessionsDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception in SessionDBStore.findById()", e);
+            LOG.error("Exception in SessionRepository.findById()", e);
         }
         return null;
     }

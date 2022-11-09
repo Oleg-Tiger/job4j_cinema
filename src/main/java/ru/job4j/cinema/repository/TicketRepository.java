@@ -1,10 +1,9 @@
-package ru.job4j.cinema.store;
+package ru.job4j.cinema.repository;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
 
 import java.sql.Connection;
@@ -13,14 +12,14 @@ import java.sql.ResultSet;
 import java.util.Optional;
 
 @Repository
-public class TicketDBStore {
+public class TicketRepository {
 
     private final BasicDataSource pool;
-    private static final Logger LOG = LoggerFactory.getLogger(SessionsDBStore.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(SessionRepository.class.getName());
     private static final String ADD = "INSERT INTO ticket(session_id, pos_row, cell, user_id) VALUES (?, ?, ?, ?)";
     private static final String FIND_BY_ID = "SELECT * FROM ticket WHERE id = ?";
 
-    public TicketDBStore(BasicDataSource pool) {
+    public TicketRepository(BasicDataSource pool) {
         this.pool = pool;
     }
 
@@ -40,7 +39,7 @@ public class TicketDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception in TicketDBStore.add()", e);
+            LOG.error("Exception in TicketRepository.add()", e);
         }
         return result;
     }
@@ -62,7 +61,7 @@ public class TicketDBStore {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception in TicketDBStore.findById()", e);
+            LOG.error("Exception in TicketRepository.findById()", e);
         }
         return result;
     }

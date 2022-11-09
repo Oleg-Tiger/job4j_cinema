@@ -1,4 +1,4 @@
-package ru.job4j.cinema.store;
+package ru.job4j.cinema.repository;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-class SessionsDBStoreTest {
+class SessionRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
@@ -62,22 +62,22 @@ class SessionsDBStoreTest {
 
     @Test
     public void whenAddSession() {
-        SessionsDBStore store = new SessionsDBStore(new Main().loadPool());
+        SessionRepository sessionRepository = new SessionRepository(new Main().loadPool());
         Session session = new Session(0, "name", new byte[1]);
-        store.add(session);
-        Session inDB = store.findById(session.getId());
+        sessionRepository.add(session);
+        Session inDB = sessionRepository.findById(session.getId());
         Assertions.assertThat(inDB.getName()).isEqualTo(session.getName());
     }
 
     @Test
     public void whenFindAll() {
-        SessionsDBStore store = new SessionsDBStore(new Main().loadPool());
+        SessionRepository sessionRepository = new SessionRepository(new Main().loadPool());
         Session session = new Session(0, "name", new byte[1]);
         Session session2 = new Session(0, "name2", new byte[1]);
-        List<Session> resultBeforeAdd = store.findAll();
-        store.add(session);
-        store.add(session2);
-        List<Session> result = store.findAll();
+        List<Session> resultBeforeAdd = sessionRepository.findAll();
+        sessionRepository.add(session);
+        sessionRepository.add(session2);
+        List<Session> result = sessionRepository.findAll();
         Assertions.assertThat(resultBeforeAdd.size() + 2).isEqualTo(result.size());
         Assertions.assertThat(result).contains(session, session2);
     }

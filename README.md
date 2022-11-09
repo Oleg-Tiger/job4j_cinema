@@ -13,13 +13,13 @@ job4j_cinema
 - JDK15
 - Maven 3.8.1
 - PostgreSQL 13.3
-- Spring Boot
-- Liquibase
-- Bootstrap
-- Thymeleaf
-- JUnit
-- H2
-- Mockito
+- Spring Boot 2.5.2
+- Liquibase 3.6.2
+- Bootstrap 4.4.1
+- Thymeleaf 3.0.12
+- JUnit 5
+- H2 1.4.200
+- Mockito 4.0.0
 
 ## Требуемое окружение:
 - JDK15
@@ -32,32 +32,37 @@ job4j_cinema
 ```jdbc:postgresql://127.0.0.1:5432/cinema```
 - Собрать jar файл с помощью команды
 ```mvn install```
-- Запустить приложение c помощью собранного jar-файла
+- Запустить приложение с помощью собранного jar-файла, выполнив команду
+```java -jar target/job4j_cinema-1.0.jar```
 - Перейти по ссылке
 ```http://localhost:8080/sessions```
 
 ## Страницы проекта:
 
 ### Главная
-![](pages/Main.png)
+![](img/Main.png)
 
 ### Выбор ряда
-![](pages/Row.png)
+![](img/Row.png)
 
 ### Выбор места
-![](pages/Seat.png)
+![](img/Seat.png)
 
 ### Информация
-![](pages/Info.png)
+![](img/Info.png)
 
 ### Место занято
-![](pages/Occupied.png)
+![](img/Occupied.png)
 
 ### Покупка успешна
-![](pages/Success.png)
+![](img/Success.png)
 
 ### Регистрация
-![](pages/Registration.png)
+![](img/Registration.png)
 
 ### Авторизация
-![](pages/Autorization.png)
+![](img/Autorization.png)
+
+## Контактная информация:
+free_person@inbox.ru
+Ершов Олег
