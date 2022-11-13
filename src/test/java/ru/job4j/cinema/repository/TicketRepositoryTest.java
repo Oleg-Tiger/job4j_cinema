@@ -41,7 +41,7 @@ public class TicketRepositoryTest {
             url = property.getProperty("jdbc.url");
             driver = property.getProperty("jdbc.driver");
         } catch (IOException e) {
-            System.err.println("ОШИБКА: Файл свойств отсуствует!");
+            System.err.println("ОШИБКА: Файл свойств отсутствует!");
         }
     }
 
@@ -59,7 +59,7 @@ public class TicketRepositoryTest {
 
     @AfterEach
     private void tearDown() {
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "ticket", "users", "sessions");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "tickets", "users", "sessions");
     }
 
     @Test

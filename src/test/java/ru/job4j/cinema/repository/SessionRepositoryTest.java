@@ -39,7 +39,7 @@ class SessionRepositoryTest {
             url = property.getProperty("jdbc.url");
             driver = property.getProperty("jdbc.driver");
         } catch (IOException e) {
-            System.err.println("ОШИБКА: Файл свойств отсуствует!");
+            System.err.println("ОШИБКА: Файл свойств отсутствует!");
         }
     }
 

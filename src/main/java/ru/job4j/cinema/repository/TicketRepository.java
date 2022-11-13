@@ -16,8 +16,8 @@ public class TicketRepository {
 
     private final BasicDataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(SessionRepository.class.getName());
-    private static final String ADD = "INSERT INTO ticket(session_id, pos_row, cell, user_id) VALUES (?, ?, ?, ?)";
-    private static final String FIND_BY_ID = "SELECT * FROM ticket WHERE id = ?";
+    private static final String ADD = "INSERT INTO tickets(session_id, pos_row, cell, user_id) VALUES (?, ?, ?, ?)";
+    private static final String FIND_BY_ID = "SELECT * FROM tickets WHERE id = ?";
 
     public TicketRepository(BasicDataSource pool) {
         this.pool = pool;

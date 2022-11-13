@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.SessionsService;
-import ru.job4j.cinema.utils.UserUtil;
+import ru.job4j.cinema.util.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
