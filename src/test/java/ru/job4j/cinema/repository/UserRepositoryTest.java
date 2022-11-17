@@ -62,7 +62,7 @@ public class UserRepositoryTest {
 
     @Test
     public void whenAddUser() {
-        UserRepository store = new UserRepository(new Main().loadPool());
+        UserStore store = new UserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> inDB = store.findUserByEmailAndPhone(user.getEmail(), user.getPhone());
@@ -71,7 +71,7 @@ public class UserRepositoryTest {
 
     @Test
     public void whenNotUniqueEmail() {
-        UserRepository store = new UserRepository(new Main().loadPool());
+        UserStore store = new UserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         user.setPhone("otherPhone");
@@ -81,7 +81,7 @@ public class UserRepositoryTest {
 
     @Test
     public void whenNotUniquePassword() {
-        UserRepository store = new UserRepository(new Main().loadPool());
+        UserStore store = new UserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         user.setEmail("otherEmail");
@@ -91,7 +91,7 @@ public class UserRepositoryTest {
 
     @Test
     public void whenNotFindEmail() {
-        UserRepository store = new UserRepository(new Main().loadPool());
+        UserStore store = new UserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> rsl = store.findUserByEmailAndPhone("1", "phone");
@@ -100,7 +100,7 @@ public class UserRepositoryTest {
 
     @Test
     public void whenNotFindPassword() {
-        UserRepository store = new UserRepository(new Main().loadPool());
+        UserStore store = new UserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> rsl = store.findUserByEmailAndPhone("email", "2");

@@ -3,6 +3,7 @@ package ru.job4j.cinema.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.service.AbstractUserService;
 import ru.job4j.cinema.service.UserService;
 import ru.job4j.cinema.util.UserUtil;
 
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 public class UserControllerTest {
 
-    private UserService userService = mock(UserService.class);
+    private AbstractUserService userService = mock(UserService.class);
     private UserController userController = new UserController(userService);
     private Model model = mock(Model.class);
     private  User user = new User(1, "name", "email", "phone");

@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.Optional;
 
 @Repository
-public class TicketRepository {
+public class TicketRepository implements TicketStore {
 
     private final BasicDataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(SessionRepository.class.getName());

@@ -64,15 +64,15 @@ public class TicketRepositoryTest {
 
     @Test
     public void whenAddTicket() {
-        SessionRepository sessionRepository = new SessionRepository(new Main().loadPool());
+        SessionStore sessionRepository = new SessionRepository(new Main().loadPool());
         Session session = new Session(0, "name", new byte[1]);
         sessionRepository.add(session);
 
-        UserRepository userRepository = new UserRepository(new Main().loadPool());
+        UserStore userRepository = new UserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
         userRepository.add(user);
 
-        TicketRepository ticketRepository = new TicketRepository(new Main().loadPool());
+        TicketStore ticketRepository = new TicketRepository(new Main().loadPool());
         Ticket ticket = new Ticket(0, session.getId(), 1, 1, user.getId());
         ticketRepository.addTicket(ticket);
         Optional<Ticket> inDB = ticketRepository.findById(ticket.getId());
@@ -81,15 +81,15 @@ public class TicketRepositoryTest {
 
     @Test
     public void whenNotAddTicket() {
-        SessionRepository sessionRepository = new SessionRepository(new Main().loadPool());
+        SessionStore sessionRepository = new SessionRepository(new Main().loadPool());
         Session session = new Session(0, "name", new byte[1]);
         sessionRepository.add(session);
 
-        UserRepository userRepository = new UserRepository(new Main().loadPool());
+        UserStore userRepository = new UserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
         userRepository.add(user);
 
-        TicketRepository ticketRepository = new TicketRepository(new Main().loadPool());
+        TicketStore ticketRepository = new TicketRepository(new Main().loadPool());
         Ticket ticket = new Ticket(0, session.getId(), 1, 1, user.getId());
         Ticket ticket2 = new Ticket(0, session.getId(), 1, 1, user.getId());
         ticketRepository.addTicket(ticket);

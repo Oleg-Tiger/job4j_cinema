@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.service.TicketService;
+import ru.job4j.cinema.service.AbstractTicketService;
 import ru.job4j.cinema.util.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +17,9 @@ import java.util.Optional;
 @Controller
 public class TicketController {
 
-    private final TicketService service;
+    private final AbstractTicketService service;
 
-    public TicketController(TicketService service) {
+    public TicketController(AbstractTicketService service) {
         this.service = service;
     }
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.service.SessionsService;
+import ru.job4j.cinema.service.AbstractSessionsService;
 import ru.job4j.cinema.util.UserUtil;
 
 
@@ -22,9 +22,9 @@ import java.io.IOException;
 @Controller
 public class SessionsController {
 
-    private final SessionsService service;
+    private final AbstractSessionsService service;
 
-    public SessionsController(SessionsService service) {
+    public SessionsController(AbstractSessionsService service) {
         this.service = service;
     }
 

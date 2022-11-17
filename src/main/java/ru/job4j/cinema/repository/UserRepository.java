@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.Optional;
 
 @Repository
-public class UserRepository {
+public class UserRepository implements UserStore {
     private final BasicDataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(UserRepository.class.getName());
     private static final String ADD = "INSERT INTO users(username, email, phone) VALUES (?, ?, ?)";

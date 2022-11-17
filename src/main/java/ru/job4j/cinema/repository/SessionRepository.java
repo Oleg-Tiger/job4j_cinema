@@ -14,7 +14,7 @@ import java.util.List;
 import org.slf4j.Logger;
 
 @Repository
-public class SessionRepository {
+public class SessionRepository implements SessionStore {
 
     private final BasicDataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(SessionRepository.class.getName());

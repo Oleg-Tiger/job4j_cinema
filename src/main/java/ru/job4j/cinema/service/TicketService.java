@@ -2,20 +2,20 @@ package ru.job4j.cinema.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.Ticket;
-import ru.job4j.cinema.repository.TicketRepository;
+import ru.job4j.cinema.repository.TicketStore;
 
 import java.util.Optional;
 
 @Service
-public class TicketService {
+public class TicketService implements AbstractTicketService {
 
-    private final TicketRepository repository;
+    private final TicketStore store;
 
-    public TicketService(TicketRepository repository) {
-        this.repository = repository;
+    public TicketService(TicketStore store) {
+        this.store = store;
     }
 
     public Optional<Ticket> addTicket(Ticket ticket) {
-        return repository.addTicket(ticket);
+        return store.addTicket(ticket);
     }
 }

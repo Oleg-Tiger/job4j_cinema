@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.service.AbstractTicketService;
 import ru.job4j.cinema.service.TicketService;
 import ru.job4j.cinema.util.UserUtil;
 
@@ -23,7 +24,7 @@ class TicketControllerTest {
     private Integer row = 1;
     private Integer seat = 2;
     private User user = new User();
-    private TicketService ticketService = mock(TicketService.class);
+    private AbstractTicketService ticketService = mock(TicketService.class);
     private HttpSession httpSession = mock(HttpSession.class);
     private Model model = mock(Model.class);
     private TicketController ticketController = new TicketController(ticketService);

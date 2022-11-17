@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.service.AbstractSessionsService;
 import ru.job4j.cinema.service.SessionsService;
 import ru.job4j.cinema.util.UserUtil;
 
@@ -24,7 +25,7 @@ public class SessionsControllerTest {
     private User user = new User();
     private Model model = mock(Model.class);
     private HttpSession httpSession = mock(HttpSession.class);
-    private SessionsService service = mock(SessionsService.class);
+    private AbstractSessionsService service = mock(SessionsService.class);
     private HttpServletRequest req = mock(HttpServletRequest.class);
     private SessionsController sessionsController = new SessionsController(service);
 

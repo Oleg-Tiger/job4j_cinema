@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.service.UserService;
+import ru.job4j.cinema.service.AbstractUserService;
 import ru.job4j.cinema.util.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +17,9 @@ import java.util.Optional;
 @Controller
 public class UserController {
 
-    private final UserService service;
+    private final AbstractUserService service;
 
-    public UserController(UserService service) {
+    public UserController(AbstractUserService service) {
         this.service = service;
     }
 

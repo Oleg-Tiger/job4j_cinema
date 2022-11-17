@@ -3,23 +3,24 @@ package ru.job4j.cinema.service;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.repository.UserRepository;
+import ru.job4j.cinema.repository.UserStore;
 
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements AbstractUserService {
 
-    private final UserRepository repository;
+    private final UserStore store;
 
-    public UserService(UserRepository repository) {
-        this.repository = repository;
+    public UserService(UserStore store) {
+        this.store = store;
     }
 
     public Optional<User> findUserByEmailAndPhone(String email, String phone) {
-        return repository.findUserByEmailAndPhone(email, phone);
+        return store.findUserByEmailAndPhone(email, phone);
     }
 
     public Optional<User> add(User user) {
-        return repository.add(user);
+        return store.add(user);
     }
 }
