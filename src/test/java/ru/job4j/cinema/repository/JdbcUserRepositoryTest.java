@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import ru.job4j.cinema.Main;;
 import ru.job4j.cinema.model.User;
 
 import javax.sql.DataSource;
@@ -62,7 +61,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenAddUser() {
-        UserRepository store = new JdbcUserRepository(new Main().loadPool());
+        UserRepository store = new JdbcUserRepository(dataSource());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> inDB = store.findUserByEmailAndPhone(user.getEmail(), user.getPhone());
@@ -71,7 +70,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenNotUniqueEmail() {
-        UserRepository store = new JdbcUserRepository(new Main().loadPool());
+        UserRepository store = new JdbcUserRepository(dataSource());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         user.setPhone("otherPhone");
@@ -81,7 +80,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenNotUniquePassword() {
-        UserRepository store = new JdbcUserRepository(new Main().loadPool());
+        UserRepository store = new JdbcUserRepository(dataSource());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         user.setEmail("otherEmail");
@@ -91,7 +90,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenNotFindEmail() {
-        UserRepository store = new JdbcUserRepository(new Main().loadPool());
+        UserRepository store = new JdbcUserRepository(dataSource());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> rsl = store.findUserByEmailAndPhone("1", "phone");
@@ -100,7 +99,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenNotFindPassword() {
-        UserRepository store = new JdbcUserRepository(new Main().loadPool());
+        UserRepository store = new JdbcUserRepository(dataSource());
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> rsl = store.findUserByEmailAndPhone("email", "2");

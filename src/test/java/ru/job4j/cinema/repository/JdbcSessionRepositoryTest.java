@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import ru.job4j.cinema.Main;
 import ru.job4j.cinema.model.Session;
 
 import javax.sql.DataSource;
@@ -62,7 +61,7 @@ class JdbcSessionRepositoryTest {
 
     @Test
     public void whenAddSession() {
-        SessionRepository sessionRepository = new JdbcSessionRepository(new Main().loadPool());
+        SessionRepository sessionRepository = new JdbcSessionRepository(dataSource());
         Session session = new Session(0, "name", new byte[1]);
         sessionRepository.add(session);
         Session inDB = sessionRepository.findById(session.getId());
@@ -71,7 +70,7 @@ class JdbcSessionRepositoryTest {
 
     @Test
     public void whenFindAll() {
-        SessionRepository sessionRepository = new JdbcSessionRepository(new Main().loadPool());
+        SessionRepository sessionRepository = new JdbcSessionRepository(dataSource());
         Session session = new Session(0, "name", new byte[1]);
         Session session2 = new Session(0, "name2", new byte[1]);
         List<Session> resultBeforeAdd = sessionRepository.findAll();

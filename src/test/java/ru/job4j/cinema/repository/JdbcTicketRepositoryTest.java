@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import ru.job4j.cinema.Main;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.model.User;
@@ -64,15 +63,15 @@ public class JdbcTicketRepositoryTest {
 
     @Test
     public void whenAddTicket() {
-        SessionRepository sessionRepository = new JdbcSessionRepository(new Main().loadPool());
+        SessionRepository sessionRepository = new JdbcSessionRepository(dataSource());
         Session session = new Session(0, "name", new byte[1]);
         sessionRepository.add(session);
 
-        UserRepository userRepository = new JdbcUserRepository(new Main().loadPool());
+        UserRepository userRepository = new JdbcUserRepository(dataSource());
         User user = new User(0, "username", "email", "phone");
         userRepository.add(user);
 
-        TicketRepository ticketRepository = new JdbcTicketRepository(new Main().loadPool());
+        TicketRepository ticketRepository = new JdbcTicketRepository(dataSource());
         Ticket ticket = new Ticket(0, session.getId(), 1, 1, user.getId());
         ticketRepository.addTicket(ticket);
         Optional<Ticket> inDB = ticketRepository.findById(ticket.getId());
@@ -81,15 +80,15 @@ public class JdbcTicketRepositoryTest {
 
     @Test
     public void whenNotAddTicket() {
-        SessionRepository sessionRepository = new JdbcSessionRepository(new Main().loadPool());
+        SessionRepository sessionRepository = new JdbcSessionRepository(dataSource());
         Session session = new Session(0, "name", new byte[1]);
         sessionRepository.add(session);
 
-        UserRepository userRepository = new JdbcUserRepository(new Main().loadPool());
+        UserRepository userRepository = new JdbcUserRepository(dataSource());
         User user = new User(0, "username", "email", "phone");
         userRepository.add(user);
 
-        TicketRepository ticketRepository = new JdbcTicketRepository(new Main().loadPool());
+        TicketRepository ticketRepository = new JdbcTicketRepository(dataSource());
         Ticket ticket = new Ticket(0, session.getId(), 1, 1, user.getId());
         Ticket ticket2 = new Ticket(0, session.getId(), 1, 1, user.getId());
         ticketRepository.addTicket(ticket);
