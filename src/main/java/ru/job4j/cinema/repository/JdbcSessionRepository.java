@@ -13,16 +13,18 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
+import javax.sql.DataSource;
+
 @Repository
 public class JdbcSessionRepository implements SessionRepository {
 
-    private final BasicDataSource pool;
+    private final DataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(JdbcSessionRepository.class.getName());
     private static final String ADD = "INSERT INTO sessions(name, photo) VALUES (?, ?)";
     private static final String SELECT_ALL = "SELECT * FROM sessions";
     private static final String FIND_BY_ID = SELECT_ALL + " WHERE id = ?";
 
-    public JdbcSessionRepository(BasicDataSource pool) {
+    public JdbcSessionRepository(DataSource pool) {
         this.pool = pool;
     }
 

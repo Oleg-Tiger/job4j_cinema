@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.Ticket;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,12 +15,12 @@ import java.util.Optional;
 @Repository
 public class JdbcTicketRepository implements TicketRepository {
 
-    private final BasicDataSource pool;
+    private final DataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(JdbcSessionRepository.class.getName());
     private static final String ADD = "INSERT INTO tickets(session_id, pos_row, cell, user_id) VALUES (?, ?, ?, ?)";
     private static final String FIND_BY_ID = "SELECT * FROM tickets WHERE id = ?";
 
-    public JdbcTicketRepository(BasicDataSource pool) {
+    public JdbcTicketRepository(DataSource pool) {
         this.pool = pool;
     }
 

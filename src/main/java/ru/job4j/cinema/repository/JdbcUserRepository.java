@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.User;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,12 +14,12 @@ import java.util.Optional;
 
 @Repository
 public class JdbcUserRepository implements UserRepository {
-    private final BasicDataSource pool;
+    private final DataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(JdbcUserRepository.class.getName());
     private static final String ADD = "INSERT INTO users(username, email, phone) VALUES (?, ?, ?)";
     private static final String FIND_EMAIL_PHONE = "SELECT * FROM users WHERE email = ? AND phone = ?";
 
-    public JdbcUserRepository(BasicDataSource pool) {
+    public JdbcUserRepository(DataSource pool) {
         this.pool = pool;
     }
 
