@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-class SessionRepositoryTest {
+class JdbcSessionRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
@@ -62,7 +62,7 @@ class SessionRepositoryTest {
 
     @Test
     public void whenAddSession() {
-        SessionStore sessionRepository = new SessionRepository(new Main().loadPool());
+        SessionRepository sessionRepository = new JdbcSessionRepository(new Main().loadPool());
         Session session = new Session(0, "name", new byte[1]);
         sessionRepository.add(session);
         Session inDB = sessionRepository.findById(session.getId());
@@ -71,7 +71,7 @@ class SessionRepositoryTest {
 
     @Test
     public void whenFindAll() {
-        SessionStore sessionRepository = new SessionRepository(new Main().loadPool());
+        SessionRepository sessionRepository = new JdbcSessionRepository(new Main().loadPool());
         Session session = new Session(0, "name", new byte[1]);
         Session session2 = new Session(0, "name2", new byte[1]);
         List<Session> resultBeforeAdd = sessionRepository.findAll();

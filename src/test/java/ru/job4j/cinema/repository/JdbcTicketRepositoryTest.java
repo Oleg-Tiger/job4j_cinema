@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import ru.job4j.cinema.Main;;
+import ru.job4j.cinema.Main;
+import ru.job4j.cinema.model.Session;
+import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.model.User;
 
 import javax.sql.DataSource;
@@ -18,7 +20,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Properties;
 
-public class UserRepositoryTest {
+public class JdbcTicketRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
@@ -57,53 +59,44 @@ public class UserRepositoryTest {
 
     @AfterEach
     private void tearDown() {
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "tickets", "users", "sessions");
     }
 
     @Test
-    public void whenAddUser() {
-        UserStore store = new UserRepository(new Main().loadPool());
+    public void whenAddTicket() {
+        SessionRepository sessionRepository = new JdbcSessionRepository(new Main().loadPool());
+        Session session = new Session(0, "name", new byte[1]);
+        sessionRepository.add(session);
+
+        UserRepository userRepository = new JdbcUserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
-        store.add(user);
-        Optional<User> inDB = store.findUserByEmailAndPhone(user.getEmail(), user.getPhone());
-        Assertions.assertThat(inDB.get()).isEqualTo(user);
+        userRepository.add(user);
+
+        TicketRepository ticketRepository = new JdbcTicketRepository(new Main().loadPool());
+        Ticket ticket = new Ticket(0, session.getId(), 1, 1, user.getId());
+        ticketRepository.addTicket(ticket);
+        Optional<Ticket> inDB = ticketRepository.findById(ticket.getId());
+        Assertions.assertThat(inDB.get()).isEqualTo(ticket);
     }
 
     @Test
-    public void whenNotUniqueEmail() {
-        UserStore store = new UserRepository(new Main().loadPool());
+    public void whenNotAddTicket() {
+        SessionRepository sessionRepository = new JdbcSessionRepository(new Main().loadPool());
+        Session session = new Session(0, "name", new byte[1]);
+        sessionRepository.add(session);
+
+        UserRepository userRepository = new JdbcUserRepository(new Main().loadPool());
         User user = new User(0, "username", "email", "phone");
-        store.add(user);
-        user.setPhone("otherPhone");
-        Optional<User> rsl = store.add(user);
-        Assertions.assertThat(rsl.isEmpty());
+        userRepository.add(user);
+
+        TicketRepository ticketRepository = new JdbcTicketRepository(new Main().loadPool());
+        Ticket ticket = new Ticket(0, session.getId(), 1, 1, user.getId());
+        Ticket ticket2 = new Ticket(0, session.getId(), 1, 1, user.getId());
+        ticketRepository.addTicket(ticket);
+        Optional<Ticket> inDB = ticketRepository.findById(ticket.getId());
+        Optional<Ticket> inDB2 = ticketRepository.findById(ticket2.getId());
+        Assertions.assertThat(inDB.get()).isEqualTo(ticket);
+        Assertions.assertThat(inDB2.isEmpty());
     }
 
-    @Test
-    public void whenNotUniquePassword() {
-        UserStore store = new UserRepository(new Main().loadPool());
-        User user = new User(0, "username", "email", "phone");
-        store.add(user);
-        user.setEmail("otherEmail");
-        Optional<User> rsl = store.add(user);
-        Assertions.assertThat(rsl.isEmpty());
-    }
-
-    @Test
-    public void whenNotFindEmail() {
-        UserStore store = new UserRepository(new Main().loadPool());
-        User user = new User(0, "username", "email", "phone");
-        store.add(user);
-        Optional<User> rsl = store.findUserByEmailAndPhone("1", "phone");
-        Assertions.assertThat(rsl.isEmpty());
-    }
-
-    @Test
-    public void whenNotFindPassword() {
-        UserStore store = new UserRepository(new Main().loadPool());
-        User user = new User(0, "username", "email", "phone");
-        store.add(user);
-        Optional<User> rsl = store.findUserByEmailAndPhone("email", "2");
-        Assertions.assertThat(rsl.isEmpty());
-    }
 }

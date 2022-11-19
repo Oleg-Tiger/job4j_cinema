@@ -3,16 +3,15 @@ package ru.job4j.cinema.service;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.repository.UserRepository;
-import ru.job4j.cinema.repository.UserStore;
 
 import java.util.Optional;
 
 @Service
 public class UserService implements AbstractUserService {
 
-    private final UserStore store;
+    private final UserRepository store;
 
-    public UserService(UserStore store) {
+    public UserService(UserRepository store) {
         this.store = store;
     }
 

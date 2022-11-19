@@ -3,16 +3,15 @@ package ru.job4j.cinema.service;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.repository.SessionRepository;
-import ru.job4j.cinema.repository.SessionStore;
 
 import java.util.List;
 
 @Service
 public class SessionsService implements AbstractSessionsService {
 
-    private final SessionStore store;
+    private final SessionRepository store;
 
-    public SessionsService(SessionStore store) {
+    public SessionsService(SessionRepository store) {
         this.store = store;
     }
 
