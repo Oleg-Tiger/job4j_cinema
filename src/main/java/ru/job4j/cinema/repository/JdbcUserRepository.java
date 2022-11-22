@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
@@ -50,15 +51,21 @@ public class JdbcUserRepository implements UserRepository {
             ps.setString(2, phone);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    User user = new User(
-                            it.getInt("id"), it.getString("username"), it.getString("email"), it.getString("phone")
-                            );
-                    result = Optional.of(user);
+                    result = Optional.of(createUser(it));
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception in JdbcUserRepository.findUserByEmailAndPhone()", e);
         }
         return result;
+    }
+
+    private User createUser(ResultSet resultSet) throws SQLException {
+        return new User(
+                resultSet.getInt("id"),
+                resultSet.getString("username"),
+                resultSet.getString("email"),
+                resultSet.getString("phone")
+        );
     }
 }

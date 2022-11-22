@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
@@ -51,18 +52,22 @@ public class JdbcTicketRepository implements TicketRepository {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    Ticket ticket = new Ticket();
-                    ticket.setId(it.getInt("id"));
-                    ticket.setSessionId(it.getInt("session_id"));
-                    ticket.setPosRow(it.getInt("pos_row"));
-                    ticket.setCell(it.getInt("cell"));
-                    ticket.setUserId(it.getInt("user_id"));
-                    result = Optional.of(ticket);
+                    result = Optional.of(createTicket(it));
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception in JdbcTicketRepository.findById()", e);
         }
         return result;
+    }
+
+    private Ticket createTicket(ResultSet resultSet) throws SQLException {
+        return new Ticket(
+                resultSet.getInt("id"),
+                resultSet.getInt("session_id"),
+                resultSet.getInt("pos_row"),
+                resultSet.getInt("cell"),
+                resultSet.getInt("user_id")
+        );
     }
 }

@@ -7,6 +7,7 @@ import ru.job4j.cinema.model.Session;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,11 +52,7 @@ public class JdbcSessionRepository implements SessionRepository {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    Session session = new Session();
-                    session.setId(it.getInt("id"));
-                    session.setName(it.getString("name"));
-                    session.setPhoto(it.getBytes("photo"));
-                    sessions.add(session);
+                    sessions.add(createSession(it));
                 }
             }
         } catch (Exception e) {
@@ -70,17 +67,21 @@ public class JdbcSessionRepository implements SessionRepository {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    Session session = new Session();
-                    session.setId(it.getInt("id"));
-                    session.setName(it.getString("name"));
-                    session.setPhoto(it.getBytes("photo"));
-                    return session;
+                    return createSession(it);
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception in JdbcSessionRepository.findById()", e);
         }
         return null;
+    }
+
+    private Session createSession(ResultSet resultSet) throws SQLException {
+        return new Session(
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getBytes("photo")
+        );
     }
 }
 

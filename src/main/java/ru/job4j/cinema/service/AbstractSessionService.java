@@ -2,7 +2,7 @@ package ru.job4j.cinema.service;
 
 import ru.job4j.cinema.model.Session;
 import java.util.List;
-public interface AbstractSessionsService {
+public interface AbstractSessionService {
 
     public Session add(Session session);
 

@@ -7,11 +7,11 @@ import ru.job4j.cinema.repository.SessionRepository;
 import java.util.List;
 
 @Service
-public class SessionsService implements AbstractSessionsService {
+public class SessionService implements AbstractSessionService {
 
     private final SessionRepository store;
 
-    public SessionsService(SessionRepository store) {
+    public SessionService(SessionRepository store) {
         this.store = store;
     }
 
