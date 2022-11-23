@@ -56,13 +56,16 @@ public class SessionController {
         return ResponseEntity.ok()
                 .headers(new HttpHeaders())
                 .contentLength(session.getPhoto().length)
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(new ByteArrayResource(session.getPhoto()));
     }
 
     @GetMapping("/hallRow/{sessionId}")
     public String sessionsId(Model model, HttpSession httpSession, @PathVariable("sessionId") int id) {
         Session ses = service.findById(id);
+        if (ses == null) {
+            return "error/404";
+        }
         model.addAttribute("ses", ses);
         User user = UserUtil.getUserFromSession(httpSession);
         model.addAttribute("user", user);
@@ -73,7 +76,6 @@ public class SessionController {
     @PostMapping("/choiceRow")
     public String choiceRow(HttpSession httpSession, HttpServletRequest req) {
         Integer row = Integer.valueOf(req.getParameter("0"));
-        User user = UserUtil.getUserFromSession(httpSession);
         httpSession.setAttribute("row", row);
         return "redirect:/hallSeat";
     }
