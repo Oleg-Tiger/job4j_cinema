@@ -2,66 +2,34 @@ package ru.job4j.cinema.repository;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
+import ru.job4j.cinema.config.TestDataSourceConfig;
 import ru.job4j.cinema.model.User;
-
 import javax.sql.DataSource;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Optional;
-import java.util.Properties;
 
 public class JdbcUserRepositoryTest {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
-    private static Properties property = new Properties();
-    private static FileInputStream fis;
-    private static String username;
-    private static String password;
-    private static String url;
-    private static String driver;
+    static DataSource dataSource;
+    static JdbcTemplate jdbcTemplate;
 
-    static {
-        try {
-            fis = new FileInputStream("src/test/resources/db.properties");
-            property.load(fis);
-
-            username = property.getProperty("jdbc.username");
-            password = property.getProperty("jdbc.password");
-            url = property.getProperty("jdbc.url");
-            driver = property.getProperty("jdbc.driver");
-        } catch (IOException e) {
-            System.err.println("ОШИБКА: Файл свойств отсутствует!");
-        }
-    }
-
-    @Bean
-    @Primary
-    public DataSource dataSource() {
-        return DataSourceBuilder
-                .create()
-                .username(username)
-                .password(password)
-                .url(url)
-                .driverClassName(driver)
-                .build();
+    @BeforeAll
+    public static void init() {
+        dataSource = new TestDataSourceConfig().dataSource();
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @AfterEach
-    private void tearDown() {
+    public void tearDown() {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
     }
 
     @Test
     public void whenAddUser() {
-        UserRepository store = new JdbcUserRepository(dataSource());
+        UserRepository store = new JdbcUserRepository(dataSource);
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> inDB = store.findUserByEmailAndPhone(user.getEmail(), user.getPhone());
@@ -70,7 +38,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenNotUniqueEmail() {
-        UserRepository store = new JdbcUserRepository(dataSource());
+        UserRepository store = new JdbcUserRepository(dataSource);
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         user.setPhone("otherPhone");
@@ -80,7 +48,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenNotUniquePassword() {
-        UserRepository store = new JdbcUserRepository(dataSource());
+        UserRepository store = new JdbcUserRepository(dataSource);
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         user.setEmail("otherEmail");
@@ -90,7 +58,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenNotFindEmail() {
-        UserRepository store = new JdbcUserRepository(dataSource());
+        UserRepository store = new JdbcUserRepository(dataSource);
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> rsl = store.findUserByEmailAndPhone("1", "phone");
@@ -99,7 +67,7 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void whenNotFindPassword() {
-        UserRepository store = new JdbcUserRepository(dataSource());
+        UserRepository store = new JdbcUserRepository(dataSource);
         User user = new User(0, "username", "email", "phone");
         store.add(user);
         Optional<User> rsl = store.findUserByEmailAndPhone("email", "2");
